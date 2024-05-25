@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Country Details</title>
-  <link rel="stylesheet" href="style.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where in the World?</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <div class="container">
-    <h3>where in the world</h3>
-    <button id="backButton" onclick="showCountryList()">← Back</button>
-    <div id="countryList"></div>
-    <div id="countryDetails" class="hidden">
-      <img id="flag" alt="Country Flag">
-      <div class="details">
-        <h1 id="countryName">Country Name</h1>
-        <p><strong>Native Name:</strong> <span id="nativeName"></span></p>
-        <p><strong>Population:</strong> <span id="population"></span></p>
-        <p><strong>Region:</strong> <span id="region"></span></p>
-        <p><strong>Sub Region:</strong> <span id="subRegion"></span></p>
-        <p><strong>Capital:</strong> <span id="capital"></span></p>
-        <p><strong>Top Level Domain:</strong> <span id="topLevelDomain"></span></p>
-        <p><strong>Currencies:</strong> <span id="currencies"></span></p>
-        <p><strong>Languages:</strong> <span id="languages"></span></p>
-        <p><strong>Border Countries:</strong> <span id="borderCountries"></span></p>
-      </div>
+    <div class="header">
+        <h1>Where in the world?</h1>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Search for a country...">
+        </div>
+        <div class="filter-container">
+            <select id="region-filter">
+                <option value="">Filter by Region</option>
+                <option value="Africa">Africa</option>
+                <option value="Americas">Americas</option>
+                <option value="Asia">Asia</option>
+                <option value="Europe">Europe</option>
+                <option value="Oceania">Oceania</option>
+            </select>
+        </div>
     </div>
-  </div>
-  <script src="script.js"></script>
+    <div id="countries-container" class="countries-container"></div>
+    <script src="script.js"></script>
 </body>
 </html>
+
+
 

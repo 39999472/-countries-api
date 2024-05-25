@@ -1,56 +1,45 @@
-document.addEventListener('DOMContentLoaded', () => {
-  fetchCountryData();
+document.addEventListener("DOMContentLoaded", () => {
+  const countriesContainer = document.getElementById("countries-container");
+  const searchInput = document.getElementById("search");
+  const regionFilter = document.getElementById("region-filter");
+
+  fetch('data.json')
+      .then(response => response.json())
+      .then(data => {
+          displayCountries(data);
+
+          searchInput.addEventListener('input', () => {
+              const searchQuery = searchInput.value.toLowerCase();
+              const filteredCountries = data.filter(country =>
+                  country.name.toLowerCase().includes(searchQuery)
+              );
+              displayCountries(filteredCountries);
+          });
+
+          regionFilter.addEventListener('change', () => {
+              const selectedRegion = regionFilter.value;
+              const filteredCountries = selectedRegion
+                  ? data.filter(country => country.region === selectedRegion)
+                  : data;
+              displayCountries(filteredCountries);
+          });
+      });
+
+  function displayCountries(countries) {
+      countriesContainer.innerHTML = '';
+      countries.forEach(country => {
+          const countryCard = document.createElement('div');
+          countryCard.className = 'country-card';
+          countryCard.innerHTML = `
+              <img src="${country.flag}" alt="${country.name} Flag">
+              <h2>${country.name}</h2>
+              <p><strong>Population:</strong> ${country.population.toLocaleString()}</p>
+              <p><strong>Region:</strong> ${country.region}</p>
+              <p><strong>Capital:</strong> ${country.capital}</p>
+          `;
+          countriesContainer.appendChild(countryCard);
+      });
+  }
 });
 
-function fetchCountryData() {
-  fetch('data.json')
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => displayCountryList(data))
-    .catch(error => console.error('Error fetching data:', error));
-}
 
-function displayCountryList(countries) {
-  const countryList = document.getElementById('countryList');
-  countryList.innerHTML = '';
-  countries.forEach(country => {
-    const countryItem = document.createElement('div');
-    countryItem.className = 'countryItem';
-    countryItem.innerText = country.name;
-    countryItem.onclick = () => showCountryDetails(country);
-    countryList.appendChild(countryItem);
-  });
-}
-
-function showCountryDetails(country) {
-  document.getElementById('backButton').style.display = 'block';
-  document.getElementById('countryList').classList.add('hidden');
-  document.getElementById('countryDetails').classList.remove('hidden');
-  
-  document.getElementById('flag').src = country.flags.png;
-  document.getElementById('countryName').innerText = country.name;
-  document.getElementById('nativeName').innerText = country.nativeName || 'N/A';
-  document.getElementById('population').innerText = country.population.toLocaleString();
-  document.getElementById('region').innerText = country.region;
-  document.getElementById('subRegion').innerText = country.subregion;
-  document.getElementById('capital').innerText = country.capital;
-  document.getElementById('topLevelDomain').innerText = country.topLevelDomain ? country.topLevelDomain.join(', ') : 'N/A';
-  document.getElementById('currencies').innerText = country.currencies ? country.currencies.map(currency => currency.name).join(', ') : 'N/A';
-  document.getElementById('languages').innerText = country.languages ? country.languages.map(lang => lang.name).join(', ') : 'N/A';
-  document.getElementById('borderCountries').innerText = country.borders ? country.borders.join(', ') : 'N/A';
-}
-
-function showCountryList() {
-  document.getElementById('backButton').style.display = 'none';
-  document.getElementById('countryList').classList.remove('hidden');
-  document.getElementById('countryDetails').classList.add('hidden');
-}
-
-  
-
-  
-  
